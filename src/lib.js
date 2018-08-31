@@ -37,26 +37,6 @@ export const chooseRandom = (array, numItems) => {
 
 // TODO copy createPrompt() from previous assignment
 export const createPrompt = ({ numQuestions = 1, numChoices = 2 } = {}) => {
-  // formatter function
-  //   if (anObject === undefined) {
-  //     anObject = { numQuestion: 1, numChoices: 2 }
-  //   }
-  //   if (anObject[0] === undefined) {
-  //     anObject = { numQuestion: 1, numChoices: 2 }
-  //   }
-  //   if (anObject[0] === 'number') {
-  //     anObject = { numQuestion: 1, numChoices: 2 }
-  //   }
-  //   if (anObject[1] === 'number') {
-  //     anObject = { numQuestion: 1, numChoices: 2 }
-  //   }
-  //   if (anObject != 'object') {
-  //     anObject = { numQuestion: 1, numChoices: 2 }
-  //   }
-  //   if (anObject['numQuestions'] === 0) {
-  //     anObject = { numQuestion: 1, numChoices: 2 }
-  //   }
-
   let arrObjs = []
   for (let x = 0; x < numQuestions; x++) {
     let qObj = {}
@@ -74,41 +54,53 @@ export const createPrompt = ({ numQuestions = 1, numChoices = 2 } = {}) => {
   }
   return arrObjs
 }
+
+const objMaker = (name, message, choices) => {
+  return {
+    type: 'list',
+    name: name,
+    message: message,
+    choices: choices
+  }
+}
+
 // TODO implement createQuestions()
 export const createQuestions = inputObject => {
-  if (inputObject === undefined || inputObject[0] === undefined) {
+  if (
+    inputObject === undefined ||
+    inputObject[1] === undefined ||
+    inputObject === {} ||
+    typeof inputObject === 'undefined' ||
+    Object.keys(inputObject).length === 0
+  ) {
     return []
   }
-  arObjs = []
-  let tempObj = {
-    type: '',
-    name: '',
-    message: '',
-    choices: []
-  }
-  // arObjs.push(tempObj)
-  for (let i = 0; i < inputObject.length; i++) {
-    //   console.log(i + ' is i and this is the value ' + b[i][0])
-    if (i === 0) {
-      tempObj['type'] = 'list'
-      tempObj['name'] = inputObject[i][0]
-      tempObj['message'] = inputObject[i][1]
-      tempObj['choices'] = []
-      // arObjs.push(tempObj)
-      continue
-    }
 
-    if (inputObject[i][0].includes(tempObj['name'])) {
-      // arObjs[i].choices.push(b[i][1])
-      tempObj['choices'].push(inputObject[i][1])
+  let questions = []
+  let keys = 'question-1'
+  let choices = []
+  let qCounter = 1
+  let message = ''
+  let name = ''
+  console.log(inputObject[0])
+  for (let i = 0; i < inputObject.length; i++) {
+    if (keys === inputObject[i][0]) {
+      message = inputObject[i][1]
+      name = inputObject[i][0]
+    } else if (inputObject[i][0].includes(keys)) {
+      choices.push(inputObject[i][1])
     } else {
-      arObjs.push(tempObj)
-      tempObj['name'] = inputObject[i][0]
-      tempObj['message'] = inputObject[i][1]
-      tempObj['choices'] = []
-      // arObjs.push(tempObj)
+      let questionObj = objMaker(name, message, choices)
+      questions.push(questionObj)
+      choices = []
+      message = inputObject[i][1]
+      keys = inputObject[i][0]
+      name = inputObject[i][0]
+      qCounter++
     }
   }
+  let questionObj = objMaker(name, message, choices)
+  questions.push(questionObj)
 }
 
 // TODO export above functions

@@ -7,7 +7,21 @@
 // TODO read the file createQuestions.json. Pass the read in object to createQuestions,
 // pass its result to chooseRandom, and then save the final result to cq_solutions.json
 import { createPrompt } from './lib'
+import { createQuestions } from './lib'
 
-console.log(createPrompt())
-console.log(createPrompt({}))
-console.log(createPrompt(undefined))
+// console.log(createPrompt())
+// console.log(createPrompt({}))
+// console.log(createPrompt(undefined))
+
+// console.log(
+//   createQuestions({
+//     'question-1': 'dog',
+//     'question-1-choice-1': 'dog',
+//     'question-1-choice-2': 'dog',
+//     'question-2': 'cat',
+//     'question-2-choice-1': 'cat',
+//     'question-2-choice-2': 'cat'
+//   })
+// )
+
+console.log(createQuestions({ question1: 'dog' }))
