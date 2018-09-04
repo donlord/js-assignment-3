@@ -8,6 +8,7 @@
 // pass its result to chooseRandom, and then save the final result to cq_solutions.json
 import { createPrompt } from './lib'
 import { createQuestions } from './lib'
+import { objectMaker } from './lib'
 
 // console.log(createPrompt())
 // console.log(createPrompt({}))
